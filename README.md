@@ -41,11 +41,26 @@ Add this repo to the inputs section of your `flake.nix`:
 }
 ```
 
-And then specify `inputs.nix-cachyos-kernel.legacyPackages.${pkgs.system}.linuxPackages-cachyos-latest` (or other variants you'd like) in your `boot.kernelPackages` option:
+Add the repo's overlay in your NixOS configuration, this will expose the packages in this flake as `pkgs.cachyosKernels.*`.
+
+Then specify `pkgs.cachyosKernels.linuxPackages-cachyos-latest` (or other variants you'd like) in your `boot.kernelPackages` option.
+
+### Example configuration
 
 ```nix
-{ pkgs, inputs, ... }:
 {
-  boot.kernelPackages = inputs.nix-cachyos-kernel.legacyPackages.${pkgs.system}.linuxPackages-cachyos-latest
+  nixosConfigurations.example = inputs.nixpkgs.lib.nixosSystem {
+    system = "x86_64-linux";
+    modules = [
+      (
+        { pkgs, ... }:
+        {
+          nixpkgs.overlays = [ self.overlay ];
+          boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
+          # ... your other configs
+        }
+      )
+    ];
+  };
 }
 ```
