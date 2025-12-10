@@ -59,6 +59,7 @@
         perSystem =
           {
             pkgs,
+            system,
             ...
           }:
           rec {
@@ -67,6 +68,14 @@
 
             # Packages only contain linux-cachyos-* due to Flake schema requirements
             packages = lib.filterAttrs (_: lib.isDerivation) legacyPackages;
+
+            # Allow build unfree modules such as nvidia_x11
+            _module.args.pkgs = lib.mkForce (
+              import inputs.nixpkgs {
+                inherit system;
+                config.allowUnfree = true;
+              }
+            );
           };
 
         flake = {
