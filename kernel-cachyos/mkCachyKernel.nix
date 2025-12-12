@@ -62,6 +62,8 @@ lib.makeOverridable (
         cp -r * $out/
       '';
     };
+
+    defaultLocalVersion = if lto then "-cachyos-lto" else "-cachyos";
   in
   buildLinux (
     (lib.removeAttrs args [
@@ -83,6 +85,8 @@ lib.makeOverridable (
 
       defconfig = args.defconfig or "cachyos_defconfig";
 
+      modDirVersion = args.modDirVersion or "${ver0}${defaultLocalVersion}";
+
       # Clang has some incompatibilities with NixOS's default kernel config
       ignoreConfigErrors = args.ignoreConfigErrors or lto;
 
@@ -91,6 +95,7 @@ lib.makeOverridable (
         (
           {
             NR_CPUS = lib.mkForce (option (freeform "8192"));
+            LOCALVERSION = freeform defaultLocalVersion;
 
             # Follow NixOS default config to not break etc overlay
             OVERLAY_FS = module;
