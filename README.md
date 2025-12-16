@@ -6,7 +6,7 @@ This repo contains Linux kernels with both [CachyOS patches](https://github.com/
 
 ## Which kernel versions are provided?
 
-This repo provides the latest kernel version and the latest LTS kernel version:
+This repo provides the following kernel variants, consistent with the [upstream definitions](https://github.com/CachyOS/linux-cachyos?tab=readme-ov-file#kernel-variants--schedulers):
 
 ```bash
 └───packages
@@ -14,7 +14,7 @@ This repo provides the latest kernel version and the latest LTS kernel version:
         ├───linux-cachyos-latest
         ├───linux-cachyos-latest-lto
         ├───linux-cachyos-lts
-        └───linux-cachyos-lts-lto
+        ├───linux-cachyos-lts-lto
         # Additional CachyOS kernel variants
         ├───linux-cachyos-bmq
         ├───linux-cachyos-bmq-lto
@@ -29,7 +29,7 @@ This repo provides the latest kernel version and the latest LTS kernel version:
         ├───linux-cachyos-rt-bore
         ├───linux-cachyos-rt-bore-lto
         ├───linux-cachyos-server
-        ├───linux-cachyos-server-lto
+        └───linux-cachyos-server-lto
 ```
 
 The kernel versions are automatically kept in sync with Nixpkgs, so once the latest/LTS kernel is updated in Nixpkgs, CachyOS kernels in this repo will automatically catch up.
