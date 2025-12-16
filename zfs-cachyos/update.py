@@ -60,7 +60,7 @@ def get_latest_zfs_cachyos_branch() -> Optional[str]:
 
 
 def run_nix_prefetch_git(branch: str) -> Optional[Dict[str, Any]]:
-    cmd = ["nix-prefetch-git", "https://github.com/CachyOS/zfs.git", "--branch-name", branch]
+    cmd = ["nix-prefetch-git", "https://github.com/CachyOS/zfs.git", "--rev", f"refs/heads/{branch}"]
 
     print(f"Running command: {' '.join(cmd)}")
     result = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
