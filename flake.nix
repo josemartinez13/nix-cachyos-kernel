@@ -81,15 +81,7 @@
             cachyosKernels = loadPackages prev;
           };
 
-          hydraJobs.packages.x86_64-linux = {
-            # Only build most common configs for lack of compute resources
-            inherit (self.packages.x86_64-linux)
-              linux-cachyos-latest
-              linux-cachyos-latest-lto
-              linux-cachyos-lts
-              linux-cachyos-lts-lto
-              ;
-          };
+          hydraJobs.packages = self.packages;
 
           # Example configurations for testing CachyOS kernel
           nixosConfigurations = lib.genAttrs systems (
