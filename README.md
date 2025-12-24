@@ -28,6 +28,8 @@ This repo provides the following kernel variants, consistent with the [upstream 
         ├───linux-cachyos-eevdf-lto
         ├───linux-cachyos-hardened
         ├───linux-cachyos-hardened-lto
+        ├───linux-cachyos-rc
+        ├───linux-cachyos-rc-lto
         ├───linux-cachyos-rt-bore
         ├───linux-cachyos-rt-bore-lto
         ├───linux-cachyos-server

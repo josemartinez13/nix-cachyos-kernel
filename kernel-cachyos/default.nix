@@ -3,6 +3,7 @@
   callPackage,
   lib,
   linux_latest,
+  linux_testing,
   linux,
   ...
 }:
@@ -103,6 +104,18 @@ builtins.listToAttrs (
       inherit (linux_latest) version src;
       configVariant = "linux-cachyos-hardened";
       hardened = true;
+      lto = true;
+    })
+    (mkCachyKernel {
+      pname = "linux-cachyos-rc";
+      inherit (linux_testing) version src;
+      configVariant = "linux-cachyos-rc";
+      lto = false;
+    })
+    (mkCachyKernel {
+      pname = "linux-cachyos-rc-lto";
+      inherit (linux_testing) version src;
+      configVariant = "linux-cachyos-rc";
       lto = true;
     })
     (mkCachyKernel {
