@@ -7,10 +7,10 @@ function cifrar() {
 }
 
 function descifrar() {
-  const textoCifrado = document.getElementById("textoEntrada").value; // Cambio aquí
+  const textoCifrado = document.getElementById("textoEntrada").value;
   const desplazamiento = parseInt(document.getElementById("desplazamiento").value);
   const textoSalida = document.getElementById("textoSalida");
-  const textoDescifrado = descifrarTexto(textoCifrado, desplazamiento); // Cambio aquí
+  const textoDescifrado = descifrarTexto(textoCifrado, desplazamiento);
   textoSalida.value = textoDescifrado;
 }
 
@@ -24,7 +24,7 @@ function cifrarTexto(texto, desplazamiento) {
         const codigoDesplazado = ((codigo - (esMayuscula ? 65 : 97) + desplazamiento) % 26) + (esMayuscula ? 65 : 97);
         return String.fromCharCode(codigoDesplazado);
       } else {
-        return caracter; // Mantener caracteres no alfabéticos sin cambio
+        return caracter;
       }
     })
     .join("");
